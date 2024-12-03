@@ -6,7 +6,6 @@ import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { GraphCreateParams, GraphCreateResponse, Graphs } from './resources/graphs';
-import { Health } from './resources/health';
 
 export interface ClientOptions {
   /**
@@ -82,7 +81,7 @@ export class Tractorbeam extends Core.APIClient {
   /**
    * API Client for interfacing with the Tractorbeam API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['TRACTORBEAM_API_KEY'] ?? undefined]
+   * @param {string | undefined} [opts.apiKey=process.env['TBM_API_KEY'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['TRACTORBEAM_BASE_URL'] ?? https://api.tractorbeam.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -93,12 +92,12 @@ export class Tractorbeam extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('TRACTORBEAM_BASE_URL'),
-    apiKey = Core.readEnv('TRACTORBEAM_API_KEY'),
+    apiKey = Core.readEnv('TBM_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
       throw new Errors.TractorbeamError(
-        "The TRACTORBEAM_API_KEY environment variable is missing or empty; either provide it, or instantiate the Tractorbeam client with an apiKey option, like new Tractorbeam({ apiKey: 'My API Key' }).",
+        "The TBM_API_KEY environment variable is missing or empty; either provide it, or instantiate the Tractorbeam client with an apiKey option, like new Tractorbeam({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -122,7 +121,6 @@ export class Tractorbeam extends Core.APIClient {
   }
 
   graphs: API.Graphs = new API.Graphs(this);
-  health: API.Health = new API.Health(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -161,7 +159,6 @@ export class Tractorbeam extends Core.APIClient {
 }
 
 Tractorbeam.Graphs = Graphs;
-Tractorbeam.Health = Health;
 export declare namespace Tractorbeam {
   export type RequestOptions = Core.RequestOptions;
 
@@ -170,8 +167,6 @@ export declare namespace Tractorbeam {
     type GraphCreateResponse as GraphCreateResponse,
     type GraphCreateParams as GraphCreateParams,
   };
-
-  export { Health as Health };
 }
 
 export { toFile, fileFromPath } from './uploads';
