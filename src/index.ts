@@ -81,7 +81,7 @@ export class Tractorbeam extends Core.APIClient {
   /**
    * API Client for interfacing with the Tractorbeam API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['TBM_API_KEY'] ?? undefined]
+   * @param {string | undefined} [opts.apiKey=process.env['TRACTORBEAM_API_KEY'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['TRACTORBEAM_BASE_URL'] ?? https://api.tractorbeam.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -92,12 +92,12 @@ export class Tractorbeam extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('TRACTORBEAM_BASE_URL'),
-    apiKey = Core.readEnv('TBM_API_KEY'),
+    apiKey = Core.readEnv('TRACTORBEAM_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
       throw new Errors.TractorbeamError(
-        "The TBM_API_KEY environment variable is missing or empty; either provide it, or instantiate the Tractorbeam client with an apiKey option, like new Tractorbeam({ apiKey: 'My API Key' }).",
+        "The TRACTORBEAM_API_KEY environment variable is missing or empty; either provide it, or instantiate the Tractorbeam client with an apiKey option, like new Tractorbeam({ apiKey: 'My API Key' }).",
       );
     }
 
