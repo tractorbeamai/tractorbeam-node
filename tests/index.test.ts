@@ -195,14 +195,14 @@ describe('instantiate client', () => {
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['API_TOKEN'] = 'My API Token';
+    process.env['TRACTORBEAM_API_TOKEN'] = 'My API Token';
     const client = new Tractorbeam();
     expect(client.apiToken).toBe('My API Token');
   });
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
-    process.env['API_TOKEN'] = 'another My API Token';
+    process.env['TRACTORBEAM_API_TOKEN'] = 'another My API Token';
     const client = new Tractorbeam({ apiToken: 'My API Token' });
     expect(client.apiToken).toBe('My API Token');
   });

@@ -96,24 +96,4 @@ describe('resource graphs', () => {
   test('query: required and optional params', async () => {
     const response = await client.graphs.query('graph-owner', 'graph-name', { sparql: 'sparql' });
   });
-
-  test('tuples: only required params', async () => {
-    const responsePromise = client.graphs.tuples('graph-owner', 'graph-name', {
-      tuples: [{ object: 'Tractorbeam', predicate: 'works_at', subject: 'Wade' }],
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('tuples: required and optional params', async () => {
-    const response = await client.graphs.tuples('graph-owner', 'graph-name', {
-      tuples: [{ object: 'Tractorbeam', predicate: 'works_at', subject: 'Wade' }],
-      embeddings: [[0]],
-    });
-  });
 });
