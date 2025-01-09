@@ -81,33 +81,4 @@ describe('resource documents', () => {
       client.documents.delete('doc_2yYISEvrO9LrLAOJjnw27', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Tractorbeam.NotFoundError);
   });
-
-  test('tuples', async () => {
-    const responsePromise = client.documents.tuples('doc_2yYISEvrO9LrLAOJjnw27');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('tuples: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.documents.tuples('doc_2yYISEvrO9LrLAOJjnw27', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Tractorbeam.NotFoundError);
-  });
-
-  test('tuples: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.documents.tuples(
-        'doc_2yYISEvrO9LrLAOJjnw27',
-        { stream: true },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Tractorbeam.NotFoundError);
-  });
 });

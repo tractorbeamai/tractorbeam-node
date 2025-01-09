@@ -8,15 +8,15 @@ export class Health extends APIResource {
    * This is a simple health check that does not require authentication. It is used
    * to check if the server is running and healthy.
    */
-  restrict(options?: Core.RequestOptions): Core.APIPromise<HealthRestrictResponse> {
+  check(options?: Core.RequestOptions): Core.APIPromise<HealthCheckResponse> {
     return this._client.get('/health', options);
   }
 }
 
-export interface HealthRestrictResponse {
+export interface HealthCheckResponse {
   health: string;
 }
 
 export declare namespace Health {
-  export { type HealthRestrictResponse as HealthRestrictResponse };
+  export { type HealthCheckResponse as HealthCheckResponse };
 }

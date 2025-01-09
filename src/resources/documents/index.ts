@@ -4,7 +4,8 @@ export { Contents } from './contents';
 export {
   Documents,
   type Document,
+  type DocumentContents,
   type DocumentListResponse,
   type DocumentCreateParams,
-  type DocumentTuplesParams,
 } from './documents';
+export { Tuples, type TupleRetrieveParams } from './tuples';

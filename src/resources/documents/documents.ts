@@ -1,13 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as ContentsAPI from './contents';
 import { Contents } from './contents';
+import * as TuplesAPI from './tuples';
+import { TupleRetrieveParams, Tuples } from './tuples';
 
 export class Documents extends APIResource {
   contents: ContentsAPI.Contents = new ContentsAPI.Contents(this._client);
+  tuples: TuplesAPI.Tuples = new TuplesAPI.Tuples(this._client);
 
   /**
    * Create a new document. Unlike other endpoints, this endpoint requires data to be
@@ -36,28 +38,6 @@ export class Documents extends APIResource {
    */
   delete(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.delete(`/documents/${id}`, {
-      ...options,
-      headers: { Accept: '*/*', ...options?.headers },
-    });
-  }
-
-  /**
-   * Extract tuples from a document by its ID. If streaming is enabled, the response
-   * will be a stream of tuples as JSON server-sent events. This endpoint requires
-   * calling our external inference service, and will have significant latency.
-   */
-  tuples(id: string, query?: DocumentTuplesParams, options?: Core.RequestOptions): Core.APIPromise<void>;
-  tuples(id: string, options?: Core.RequestOptions): Core.APIPromise<void>;
-  tuples(
-    id: string,
-    query: DocumentTuplesParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
-    if (isRequestOptions(query)) {
-      return this.tuples(id, {}, query);
-    }
-    return this._client.get(`/documents/${id}/tuples`, {
-      query,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
     });
@@ -96,6 +76,13 @@ export interface Document {
   owner: string;
 }
 
+export interface DocumentContents {
+  /**
+   * The binary contents of the document
+   */
+  contents: Array<number>;
+}
+
 export interface DocumentListResponse {
   documents: Array<Document>;
 }
@@ -117,22 +104,18 @@ export interface DocumentCreateParams {
   text?: string | null;
 }
 
-export interface DocumentTuplesParams {
-  /**
-   * Whether to stream the tuples back as a stream of JSON server-sent events
-   */
-  stream?: boolean;
-}
-
 Documents.Contents = Contents;
+Documents.Tuples = Tuples;
 
 export declare namespace Documents {
   export {
     type Document as Document,
+    type DocumentContents as DocumentContents,
     type DocumentListResponse as DocumentListResponse,
     type DocumentCreateParams as DocumentCreateParams,
-    type DocumentTuplesParams as DocumentTuplesParams,
   };
 
   export { Contents as Contents };
+
+  export { Tuples as Tuples, type TupleRetrieveParams as TupleRetrieveParams };
 }

@@ -1,13 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export * from './shared';
 export { APITokens, type APIToken, type APITokenListResponse, type APITokenCreateParams } from './api-tokens';
 export {
   Documents,
   type Document,
+  type DocumentContents,
   type DocumentListResponse,
   type DocumentCreateParams,
-  type DocumentTuplesParams,
 } from './documents/documents';
 export {
   Graphs,
@@ -17,6 +16,11 @@ export {
   type GraphCreateParams,
   type GraphQueryParams,
 } from './graphs/graphs';
-export { Health, type HealthRestrictResponse } from './health';
-export { Queries, type QueryDecodeResponse, type QueryDecodeParams } from './queries';
-export { Query, type QueryRestrictResponse, type QueryRestrictParams } from './query';
+export { Health, type HealthCheckResponse } from './health';
+export {
+  Queries,
+  type QueryCreateResponse,
+  type QueryDecodeResponse,
+  type QueryCreateParams,
+  type QueryDecodeParams,
+} from './queries';

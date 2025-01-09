@@ -6,14 +6,19 @@ import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { APIToken, APITokenCreateParams, APITokenListResponse, APITokens } from './resources/api-tokens';
-import { Health, HealthRestrictResponse } from './resources/health';
-import { Queries, QueryDecodeParams, QueryDecodeResponse } from './resources/queries';
-import { Query, QueryRestrictParams, QueryRestrictResponse } from './resources/query';
+import { Health, HealthCheckResponse } from './resources/health';
+import {
+  Queries,
+  QueryCreateParams,
+  QueryCreateResponse,
+  QueryDecodeParams,
+  QueryDecodeResponse,
+} from './resources/queries';
 import {
   Document,
+  DocumentContents,
   DocumentCreateParams,
   DocumentListResponse,
-  DocumentTuplesParams,
   Documents,
 } from './resources/documents/documents';
 import {
@@ -27,7 +32,7 @@ import {
 
 export interface ClientOptions {
   /**
-   * Bearer token for authenticating requests to the Tractorbeam API
+   * Authentication token for accessing the API.
    */
   apiToken?: string | undefined;
 
@@ -143,7 +148,6 @@ export class Tractorbeam extends Core.APIClient {
   graphs: API.Graphs = new API.Graphs(this);
   health: API.Health = new API.Health(this);
   queries: API.Queries = new API.Queries(this);
-  query: API.Query = new API.Query(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -186,7 +190,6 @@ Tractorbeam.Documents = Documents;
 Tractorbeam.Graphs = Graphs;
 Tractorbeam.Health = Health;
 Tractorbeam.Queries = Queries;
-Tractorbeam.Query = Query;
 export declare namespace Tractorbeam {
   export type RequestOptions = Core.RequestOptions;
 
@@ -200,9 +203,9 @@ export declare namespace Tractorbeam {
   export {
     Documents as Documents,
     type Document as Document,
+    type DocumentContents as DocumentContents,
     type DocumentListResponse as DocumentListResponse,
     type DocumentCreateParams as DocumentCreateParams,
-    type DocumentTuplesParams as DocumentTuplesParams,
   };
 
   export {
@@ -214,21 +217,15 @@ export declare namespace Tractorbeam {
     type GraphQueryParams as GraphQueryParams,
   };
 
-  export { Health as Health, type HealthRestrictResponse as HealthRestrictResponse };
+  export { Health as Health, type HealthCheckResponse as HealthCheckResponse };
 
   export {
     Queries as Queries,
+    type QueryCreateResponse as QueryCreateResponse,
     type QueryDecodeResponse as QueryDecodeResponse,
+    type QueryCreateParams as QueryCreateParams,
     type QueryDecodeParams as QueryDecodeParams,
   };
-
-  export {
-    Query as Query,
-    type QueryRestrictResponse as QueryRestrictResponse,
-    type QueryRestrictParams as QueryRestrictParams,
-  };
-
-  export type DocumentContents = API.DocumentContents;
 }
 
 export { toFile, fileFromPath } from './uploads';
