@@ -10,15 +10,15 @@ export class Tuples extends APIResource {
    * will be a stream of tuples as JSON server-sent events. This endpoint requires
    * calling our external inference service, and will have significant latency.
    */
-  retrieve(id: string, query?: TupleRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<void>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<void>;
-  retrieve(
+  list(id: string, query?: TupleListParams, options?: Core.RequestOptions): Core.APIPromise<void>;
+  list(id: string, options?: Core.RequestOptions): Core.APIPromise<void>;
+  list(
     id: string,
-    query: TupleRetrieveParams | Core.RequestOptions = {},
+    query: TupleListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
     if (isRequestOptions(query)) {
-      return this.retrieve(id, {}, query);
+      return this.list(id, {}, query);
     }
     return this._client.get(`/documents/${id}/tuples`, {
       query,
@@ -28,7 +28,7 @@ export class Tuples extends APIResource {
   }
 }
 
-export interface TupleRetrieveParams {
+export interface TupleListParams {
   /**
    * Whether to stream the tuples back as a stream of JSON server-sent events
    */
@@ -36,5 +36,5 @@ export interface TupleRetrieveParams {
 }
 
 export declare namespace Tuples {
-  export { type TupleRetrieveParams as TupleRetrieveParams };
+  export { type TupleListParams as TupleListParams };
 }

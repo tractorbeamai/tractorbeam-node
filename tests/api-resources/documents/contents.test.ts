@@ -4,7 +4,7 @@ import Tractorbeam from 'tractorbeam';
 import { Response } from 'node-fetch';
 
 const client = new Tractorbeam({
-  bearerToken: 'My Bearer Token',
+  apiToken: 'My API Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 

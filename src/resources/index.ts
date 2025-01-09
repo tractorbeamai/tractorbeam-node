@@ -4,6 +4,7 @@ export { APITokens, type APIToken, type APITokenListResponse, type APITokenCreat
 export {
   Documents,
   type Document,
+  type DocumentContents,
   type DocumentListResponse,
   type DocumentCreateParams,
 } from './documents/documents';
@@ -17,11 +18,5 @@ export {
   type GraphQueryParams,
   type GraphTuplesParams,
 } from './graphs';
-export { Health, type HealthCheckResponse } from './health';
-export {
-  Queries,
-  type QueryDecodeResponse,
-  type QueryQueryResponse,
-  type QueryDecodeParams,
-  type QueryQueryParams,
-} from './queries';
+export { Queries, type QueryDecodeResponse, type QueryDecodeParams } from './queries';
+export { type HealthCheckResponse, type QueryResponse, type QueryParams } from './top-level';

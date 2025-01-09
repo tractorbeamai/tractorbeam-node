@@ -3,9 +3,9 @@
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
 import * as ContentsAPI from './contents';
-import { Contents, DocumentContents } from './contents';
+import { Contents } from './contents';
 import * as TuplesAPI from './tuples';
-import { TupleRetrieveParams, Tuples } from './tuples';
+import { TupleListParams, Tuples } from './tuples';
 
 export class Documents extends APIResource {
   contents: ContentsAPI.Contents = new ContentsAPI.Contents(this._client);
@@ -76,6 +76,13 @@ export interface Document {
   owner: string;
 }
 
+export interface DocumentContents {
+  /**
+   * The binary contents of the document
+   */
+  contents: Array<number>;
+}
+
 export interface DocumentListResponse {
   documents: Array<Document>;
 }
@@ -103,11 +110,12 @@ Documents.Tuples = Tuples;
 export declare namespace Documents {
   export {
     type Document as Document,
+    type DocumentContents as DocumentContents,
     type DocumentListResponse as DocumentListResponse,
     type DocumentCreateParams as DocumentCreateParams,
   };
 
-  export { Contents as Contents, type DocumentContents as DocumentContents };
+  export { Contents as Contents };
 
-  export { Tuples as Tuples, type TupleRetrieveParams as TupleRetrieveParams };
+  export { Tuples as Tuples, type TupleListParams as TupleListParams };
 }

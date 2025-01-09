@@ -1,3 +1,15 @@
+# Tractorbeam
+
+Types:
+
+- <code><a href="./src/resources/top-level.ts">HealthCheckResponse</a></code>
+- <code><a href="./src/resources/top-level.ts">QueryResponse</a></code>
+
+Methods:
+
+- <code title="get /health">client.<a href="./src/index.ts">healthCheck</a>() -> HealthCheckResponse</code>
+- <code title="post /query">client.<a href="./src/index.ts">query</a>({ ...params }) -> QueryResponse</code>
+
 # APITokens
 
 Types:
@@ -17,6 +29,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/documents/documents.ts">Document</a></code>
+- <code><a href="./src/resources/documents/documents.ts">DocumentContents</a></code>
 - <code><a href="./src/resources/documents/documents.ts">DocumentListResponse</a></code>
 
 Methods:
@@ -28,10 +41,6 @@ Methods:
 
 ## Contents
 
-Types:
-
-- <code><a href="./src/resources/documents/contents.ts">DocumentContents</a></code>
-
 Methods:
 
 - <code title="get /documents/{id}/contents">client.documents.contents.<a href="./src/resources/documents/contents.ts">retrieve</a>(id) -> DocumentContents</code>
@@ -40,7 +49,7 @@ Methods:
 
 Methods:
 
-- <code title="get /documents/{id}/tuples">client.documents.tuples.<a href="./src/resources/documents/tuples.ts">retrieve</a>(id, { ...params }) -> void</code>
+- <code title="get /documents/{id}/tuples">client.documents.tuples.<a href="./src/resources/documents/tuples.ts">list</a>(id, { ...params }) -> void</code>
 
 # Graphs
 
@@ -60,24 +69,12 @@ Methods:
 - <code title="post /graphs/{owner}/{name}/query">client.graphs.<a href="./src/resources/graphs.ts">query</a>(owner, name, { ...params }) -> GraphQueryResponse</code>
 - <code title="post /graphs/{owner}/{name}/tuples">client.graphs.<a href="./src/resources/graphs.ts">tuples</a>(owner, name, { ...params }) -> GraphTuplesResponse</code>
 
-# Health
-
-Types:
-
-- <code><a href="./src/resources/health.ts">HealthCheckResponse</a></code>
-
-Methods:
-
-- <code title="get /health">client.health.<a href="./src/resources/health.ts">check</a>() -> HealthCheckResponse</code>
-
 # Queries
 
 Types:
 
 - <code><a href="./src/resources/queries.ts">QueryDecodeResponse</a></code>
-- <code><a href="./src/resources/queries.ts">QueryQueryResponse</a></code>
 
 Methods:
 
 - <code title="post /queries/decode">client.queries.<a href="./src/resources/queries.ts">decode</a>({ ...params }) -> QueryDecodeResponse</code>
-- <code title="post /query">client.queries.<a href="./src/resources/queries.ts">query</a>({ ...params }) -> QueryQueryResponse</code>
