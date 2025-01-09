@@ -5,6 +5,8 @@ import * as Core from './core';
 import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
+import * as TopLevelAPI from './resources/top-level';
+import { HealthCheckResponse, QueryParams, QueryResponse } from './resources/top-level';
 import { APIToken, APITokenCreateParams, APITokenListResponse, APITokens } from './resources/api-tokens';
 import {
   Graph,
@@ -16,16 +18,10 @@ import {
   GraphTuplesResponse,
   Graphs,
 } from './resources/graphs';
-import { Health, HealthCheckResponse } from './resources/health';
-import {
-  Queries,
-  QueryDecodeParams,
-  QueryDecodeResponse,
-  QueryQueryParams,
-  QueryQueryResponse,
-} from './resources/queries';
+import { Queries, QueryDecodeParams, QueryDecodeResponse } from './resources/queries';
 import {
   Document,
+  DocumentContents,
   DocumentCreateParams,
   DocumentListResponse,
   Documents,
@@ -33,9 +29,9 @@ import {
 
 export interface ClientOptions {
   /**
-   * Bearer token for authentication
+   * The API token used for authenticating requests to the Tractorbeam API
    */
-  bearerToken?: string | undefined;
+  apiToken?: string | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -98,14 +94,14 @@ export interface ClientOptions {
  * API Client for interfacing with the Tractorbeam API.
  */
 export class Tractorbeam extends Core.APIClient {
-  bearerToken: string;
+  apiToken: string;
 
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Tractorbeam API.
    *
-   * @param {string | undefined} [opts.bearerToken=process.env['API_TOKEN'] ?? undefined]
+   * @param {string | undefined} [opts.apiToken=process.env['API_TOKEN'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['TRACTORBEAM_BASE_URL'] ?? https://api.tractorbeam.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -116,17 +112,17 @@ export class Tractorbeam extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('TRACTORBEAM_BASE_URL'),
-    bearerToken = Core.readEnv('API_TOKEN'),
+    apiToken = Core.readEnv('API_TOKEN'),
     ...opts
   }: ClientOptions = {}) {
-    if (bearerToken === undefined) {
+    if (apiToken === undefined) {
       throw new Errors.TractorbeamError(
-        "The API_TOKEN environment variable is missing or empty; either provide it, or instantiate the Tractorbeam client with an bearerToken option, like new Tractorbeam({ bearerToken: 'My Bearer Token' }).",
+        "The API_TOKEN environment variable is missing or empty; either provide it, or instantiate the Tractorbeam client with an apiToken option, like new Tractorbeam({ apiToken: 'My API Token' }).",
       );
     }
 
     const options: ClientOptions = {
-      bearerToken,
+      apiToken,
       ...opts,
       baseURL: baseURL || `https://api.tractorbeam.ai`,
     };
@@ -141,14 +137,31 @@ export class Tractorbeam extends Core.APIClient {
 
     this._options = options;
 
-    this.bearerToken = bearerToken;
+    this.apiToken = apiToken;
   }
 
   apiTokens: API.APITokens = new API.APITokens(this);
   documents: API.Documents = new API.Documents(this);
   graphs: API.Graphs = new API.Graphs(this);
-  health: API.Health = new API.Health(this);
   queries: API.Queries = new API.Queries(this);
+
+  /**
+   * This is a simple health check that does not require authentication. It is used
+   * to check if the server is running and healthy.
+   */
+  healthCheck(options?: Core.RequestOptions): Core.APIPromise<TopLevelAPI.HealthCheckResponse> {
+    return this.get('/health', options);
+  }
+
+  /**
+   * Execute a natural language query across multiple graphs.
+   */
+  query(
+    body: TopLevelAPI.QueryParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<TopLevelAPI.QueryResponse> {
+    return this.post('/query', { body, ...options });
+  }
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -162,7 +175,7 @@ export class Tractorbeam extends Core.APIClient {
   }
 
   protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    return { Authorization: `Bearer ${this.bearerToken}` };
+    return { Authorization: `Bearer ${this.apiToken}` };
   }
 
   static Tractorbeam = this;
@@ -189,10 +202,15 @@ export class Tractorbeam extends Core.APIClient {
 Tractorbeam.APITokens = APITokens;
 Tractorbeam.Documents = Documents;
 Tractorbeam.Graphs = Graphs;
-Tractorbeam.Health = Health;
 Tractorbeam.Queries = Queries;
 export declare namespace Tractorbeam {
   export type RequestOptions = Core.RequestOptions;
+
+  export {
+    type HealthCheckResponse as HealthCheckResponse,
+    type QueryResponse as QueryResponse,
+    type QueryParams as QueryParams,
+  };
 
   export {
     APITokens as APITokens,
@@ -204,6 +222,7 @@ export declare namespace Tractorbeam {
   export {
     Documents as Documents,
     type Document as Document,
+    type DocumentContents as DocumentContents,
     type DocumentListResponse as DocumentListResponse,
     type DocumentCreateParams as DocumentCreateParams,
   };
@@ -219,14 +238,10 @@ export declare namespace Tractorbeam {
     type GraphTuplesParams as GraphTuplesParams,
   };
 
-  export { Health as Health, type HealthCheckResponse as HealthCheckResponse };
-
   export {
     Queries as Queries,
     type QueryDecodeResponse as QueryDecodeResponse,
-    type QueryQueryResponse as QueryQueryResponse,
     type QueryDecodeParams as QueryDecodeParams,
-    type QueryQueryParams as QueryQueryParams,
   };
 }
 

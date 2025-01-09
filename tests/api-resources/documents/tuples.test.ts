@@ -4,13 +4,13 @@ import Tractorbeam from 'tractorbeam';
 import { Response } from 'node-fetch';
 
 const client = new Tractorbeam({
-  bearerToken: 'My Bearer Token',
+  apiToken: 'My API Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource tuples', () => {
-  test('retrieve', async () => {
-    const responsePromise = client.documents.tuples.retrieve('doc_2yYISEvrO9LrLAOJjnw27');
+  test('list', async () => {
+    const responsePromise = client.documents.tuples.list('doc_2yYISEvrO9LrLAOJjnw27');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,17 +20,17 @@ describe('resource tuples', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieve: request options instead of params are passed correctly', async () => {
+  test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.documents.tuples.retrieve('doc_2yYISEvrO9LrLAOJjnw27', { path: '/_stainless_unknown_path' }),
+      client.documents.tuples.list('doc_2yYISEvrO9LrLAOJjnw27', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Tractorbeam.NotFoundError);
   });
 
-  test('retrieve: request options and params are passed correctly', async () => {
+  test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.documents.tuples.retrieve(
+      client.documents.tuples.list(
         'doc_2yYISEvrO9LrLAOJjnw27',
         { stream: true },
         { path: '/_stainless_unknown_path' },

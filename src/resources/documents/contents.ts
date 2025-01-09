@@ -2,23 +2,13 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
+import * as DocumentsAPI from './documents';
 
 export class Contents extends APIResource {
   /**
    * Get the binary contents of a document by its ID.
    */
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<DocumentContents> {
+  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<DocumentsAPI.DocumentContents> {
     return this._client.get(`/documents/${id}/contents`, options);
   }
-}
-
-export interface DocumentContents {
-  /**
-   * The binary contents of the document
-   */
-  contents: Array<number>;
-}
-
-export declare namespace Contents {
-  export { type DocumentContents as DocumentContents };
 }

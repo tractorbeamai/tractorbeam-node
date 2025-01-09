@@ -1,5 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Contents, type DocumentContents } from './contents';
-export { Documents, type Document, type DocumentListResponse, type DocumentCreateParams } from './documents';
-export { Tuples, type TupleRetrieveParams } from './tuples';
+export { Contents } from './contents';
+export {
+  Documents,
+  type Document,
+  type DocumentContents,
+  type DocumentListResponse,
+  type DocumentCreateParams,
+} from './documents';
+export { Tuples, type TupleListParams } from './tuples';
