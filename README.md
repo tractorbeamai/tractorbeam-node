@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:tractorbeamai/tractorbeam-node.git
+npm install git+ssh://git@github.com:stainless-sdks/tractorbeam-node.git
 ```
 
 > [!NOTE]
@@ -25,10 +25,14 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import Tractorbeam from 'tractorbeam';
 
-const client = new Tractorbeam();
+const client = new Tractorbeam({
+  bearerToken: process.env['API_TOKEN'], // This is the default and can be omitted
+});
 
 async function main() {
-  const graph = await client.graphs.create({});
+  const apiToken = await client.apiTokens.create({ name: 'REPLACE_ME' });
+
+  console.log(apiToken.id);
 }
 
 main();
@@ -42,11 +46,13 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import Tractorbeam from 'tractorbeam';
 
-const client = new Tractorbeam();
+const client = new Tractorbeam({
+  bearerToken: process.env['API_TOKEN'], // This is the default and can be omitted
+});
 
 async function main() {
-  const params: Tractorbeam.GraphCreateParams = {};
-  const graph: unknown = await client.graphs.create(params);
+  const params: Tractorbeam.APITokenCreateParams = { name: 'REPLACE_ME' };
+  const apiToken: Tractorbeam.APIToken = await client.apiTokens.create(params);
 }
 
 main();
@@ -63,7 +69,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const graph = await client.graphs.create({}).catch(async (err) => {
+  const apiToken = await client.apiTokens.create({ name: 'REPLACE_ME' }).catch(async (err) => {
     if (err instanceof Tractorbeam.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -106,7 +112,7 @@ const client = new Tractorbeam({
 });
 
 // Or, configure per-request:
-await client.graphs.create({}, {
+await client.apiTokens.create({ name: 'REPLACE_ME' }, {
   maxRetries: 5,
 });
 ```
@@ -123,7 +129,7 @@ const client = new Tractorbeam({
 });
 
 // Override per-request:
-await client.graphs.create({}, {
+await client.apiTokens.create({ name: 'REPLACE_ME' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -144,13 +150,15 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Tractorbeam();
 
-const response = await client.graphs.create({}).asResponse();
+const response = await client.apiTokens.create({ name: 'REPLACE_ME' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: graph, response: raw } = await client.graphs.create({}).withResponse();
+const { data: apiToken, response: raw } = await client.apiTokens
+  .create({ name: 'REPLACE_ME' })
+  .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(graph);
+console.log(apiToken.id);
 ```
 
 ### Making custom/undocumented requests
@@ -213,7 +221,7 @@ import Tractorbeam from 'tractorbeam';
 ```
 
 To do the inverse, add `import "tractorbeam/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/tractorbeamai/tractorbeam-node/tree/main/src/_shims#readme)).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/stainless-sdks/tractorbeam-node/tree/main/src/_shims#readme)).
 
 ### Logging and middleware
 
@@ -254,8 +262,8 @@ const client = new Tractorbeam({
 });
 
 // Override per-request:
-await client.graphs.create(
-  {},
+await client.apiTokens.create(
+  { name: 'REPLACE_ME' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
@@ -272,7 +280,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/tractorbeamai/tractorbeam-node/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/tractorbeam-node/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
