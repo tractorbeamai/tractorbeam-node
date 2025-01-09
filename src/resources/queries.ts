@@ -5,6 +5,13 @@ import * as Core from '../core';
 
 export class Queries extends APIResource {
   /**
+   * Execute a natural language query across multiple graphs.
+   */
+  create(body: QueryCreateParams, options?: Core.RequestOptions): Core.APIPromise<QueryCreateResponse> {
+    return this._client.post('/query', { body, ...options });
+  }
+
+  /**
    * Execute a keyword branch query across multiple graphs, extracting keywords from
    * natural language and exploring the graph structure around those keywords.
    */
@@ -13,8 +20,20 @@ export class Queries extends APIResource {
   }
 }
 
+export interface QueryCreateResponse {
+  chains: Array<string>;
+}
+
 export interface QueryDecodeResponse {
   chains: Array<string>;
+}
+
+export interface QueryCreateParams {
+  depth: number;
+
+  graph_names: Array<string>;
+
+  query: string;
 }
 
 export interface QueryDecodeParams {
@@ -26,5 +45,10 @@ export interface QueryDecodeParams {
 }
 
 export declare namespace Queries {
-  export { type QueryDecodeResponse as QueryDecodeResponse, type QueryDecodeParams as QueryDecodeParams };
+  export {
+    type QueryCreateResponse as QueryCreateResponse,
+    type QueryDecodeResponse as QueryDecodeResponse,
+    type QueryCreateParams as QueryCreateParams,
+    type QueryDecodeParams as QueryDecodeParams,
+  };
 }

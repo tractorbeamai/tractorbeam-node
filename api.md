@@ -1,9 +1,3 @@
-# Shared
-
-Types:
-
-- <code><a href="./src/resources/shared.ts">DocumentContents</a></code>
-
 # APITokens
 
 Types:
@@ -23,6 +17,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/documents/documents.ts">Document</a></code>
+- <code><a href="./src/resources/documents/documents.ts">DocumentContents</a></code>
 - <code><a href="./src/resources/documents/documents.ts">DocumentListResponse</a></code>
 
 Methods:
@@ -31,13 +26,18 @@ Methods:
 - <code title="get /documents/{id}">client.documents.<a href="./src/resources/documents/documents.ts">retrieve</a>(id) -> Document</code>
 - <code title="get /documents">client.documents.<a href="./src/resources/documents/documents.ts">list</a>() -> DocumentListResponse</code>
 - <code title="delete /documents/{id}">client.documents.<a href="./src/resources/documents/documents.ts">delete</a>(id) -> void</code>
-- <code title="get /documents/{id}/tuples">client.documents.<a href="./src/resources/documents/documents.ts">tuples</a>(id, { ...params }) -> void</code>
 
 ## Contents
 
 Methods:
 
 - <code title="get /documents/{id}/contents">client.documents.contents.<a href="./src/resources/documents/contents.ts">retrieve</a>(id) -> DocumentContents</code>
+
+## Tuples
+
+Methods:
+
+- <code title="get /documents/{id}/tuples">client.documents.tuples.<a href="./src/resources/documents/tuples.ts">retrieve</a>(id, { ...params }) -> void</code>
 
 # Graphs
 
@@ -69,28 +69,20 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/health.ts">HealthRestrictResponse</a></code>
+- <code><a href="./src/resources/health.ts">HealthCheckResponse</a></code>
 
 Methods:
 
-- <code title="get /health">client.health.<a href="./src/resources/health.ts">restrict</a>() -> HealthRestrictResponse</code>
+- <code title="get /health">client.health.<a href="./src/resources/health.ts">check</a>() -> HealthCheckResponse</code>
 
 # Queries
 
 Types:
 
+- <code><a href="./src/resources/queries.ts">QueryCreateResponse</a></code>
 - <code><a href="./src/resources/queries.ts">QueryDecodeResponse</a></code>
 
 Methods:
 
+- <code title="post /query">client.queries.<a href="./src/resources/queries.ts">create</a>({ ...params }) -> QueryCreateResponse</code>
 - <code title="post /queries/decode">client.queries.<a href="./src/resources/queries.ts">decode</a>({ ...params }) -> QueryDecodeResponse</code>
-
-# Query
-
-Types:
-
-- <code><a href="./src/resources/query.ts">QueryRestrictResponse</a></code>
-
-Methods:
-
-- <code title="post /query">client.query.<a href="./src/resources/query.ts">restrict</a>({ ...params }) -> QueryRestrictResponse</code>
