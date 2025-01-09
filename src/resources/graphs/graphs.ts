@@ -1,9 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../../resource';
+import * as Core from '../../core';
+import * as TuplesAPI from './tuples';
+import { TupleCreateParams, TupleCreateResponse, Tuples } from './tuples';
 
 export class Graphs extends APIResource {
+  tuples: TuplesAPI.Tuples = new TuplesAPI.Tuples(this._client);
+
   /**
    * Create a new graph.
    */
@@ -46,18 +50,6 @@ export class Graphs extends APIResource {
   ): Core.APIPromise<GraphQueryResponse> {
     return this._client.post(`/graphs/${owner}/${name}/query`, { body, ...options });
   }
-
-  /**
-   * Insert tuples into an existing graph.
-   */
-  tuples(
-    owner: string,
-    name: string,
-    body: GraphTuplesParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<GraphTuplesResponse> {
-    return this._client.post(`/graphs/${owner}/${name}/tuples`, { body, ...options });
-  }
 }
 
 export interface Graph {
@@ -90,13 +82,6 @@ export interface GraphQueryResponse {
   bindings: Array<Record<string, string>>;
 }
 
-export interface GraphTuplesResponse {
-  /**
-   * The number of tuples inserted
-   */
-  inserted: number;
-}
-
 export interface GraphCreateParams {
   name: string;
 }
@@ -105,39 +90,20 @@ export interface GraphQueryParams {
   sparql: string;
 }
 
-export interface GraphTuplesParams {
-  tuples: Array<GraphTuplesParams.Tuple>;
-
-  embeddings?: Array<Array<number>> | null;
-}
-
-export namespace GraphTuplesParams {
-  export interface Tuple {
-    /**
-     * The object of the tuple
-     */
-    object: string;
-
-    /**
-     * The predicate of the tuple
-     */
-    predicate: string;
-
-    /**
-     * The subject of the tuple
-     */
-    subject: string;
-  }
-}
+Graphs.Tuples = Tuples;
 
 export declare namespace Graphs {
   export {
     type Graph as Graph,
     type GraphListResponse as GraphListResponse,
     type GraphQueryResponse as GraphQueryResponse,
-    type GraphTuplesResponse as GraphTuplesResponse,
     type GraphCreateParams as GraphCreateParams,
     type GraphQueryParams as GraphQueryParams,
-    type GraphTuplesParams as GraphTuplesParams,
+  };
+
+  export {
+    Tuples as Tuples,
+    type TupleCreateResponse as TupleCreateResponse,
+    type TupleCreateParams as TupleCreateParams,
   };
 }

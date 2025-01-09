@@ -1,14 +1,8 @@
-# Tractorbeam
+# Shared
 
 Types:
 
-- <code><a href="./src/resources/top-level.ts">HealthCheckResponse</a></code>
-- <code><a href="./src/resources/top-level.ts">QueryResponse</a></code>
-
-Methods:
-
-- <code title="get /health">client.<a href="./src/index.ts">healthCheck</a>() -> HealthCheckResponse</code>
-- <code title="post /query">client.<a href="./src/index.ts">query</a>({ ...params }) -> QueryResponse</code>
+- <code><a href="./src/resources/shared.ts">DocumentContents</a></code>
 
 # APITokens
 
@@ -29,7 +23,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/documents/documents.ts">Document</a></code>
-- <code><a href="./src/resources/documents/documents.ts">DocumentContents</a></code>
 - <code><a href="./src/resources/documents/documents.ts">DocumentListResponse</a></code>
 
 Methods:
@@ -38,6 +31,7 @@ Methods:
 - <code title="get /documents/{id}">client.documents.<a href="./src/resources/documents/documents.ts">retrieve</a>(id) -> Document</code>
 - <code title="get /documents">client.documents.<a href="./src/resources/documents/documents.ts">list</a>() -> DocumentListResponse</code>
 - <code title="delete /documents/{id}">client.documents.<a href="./src/resources/documents/documents.ts">delete</a>(id) -> void</code>
+- <code title="get /documents/{id}/tuples">client.documents.<a href="./src/resources/documents/documents.ts">tuples</a>(id, { ...params }) -> void</code>
 
 ## Contents
 
@@ -45,29 +39,41 @@ Methods:
 
 - <code title="get /documents/{id}/contents">client.documents.contents.<a href="./src/resources/documents/contents.ts">retrieve</a>(id) -> DocumentContents</code>
 
-## Tuples
-
-Methods:
-
-- <code title="get /documents/{id}/tuples">client.documents.tuples.<a href="./src/resources/documents/tuples.ts">list</a>(id, { ...params }) -> void</code>
-
 # Graphs
 
 Types:
 
-- <code><a href="./src/resources/graphs.ts">Graph</a></code>
-- <code><a href="./src/resources/graphs.ts">GraphListResponse</a></code>
-- <code><a href="./src/resources/graphs.ts">GraphQueryResponse</a></code>
-- <code><a href="./src/resources/graphs.ts">GraphTuplesResponse</a></code>
+- <code><a href="./src/resources/graphs/graphs.ts">Graph</a></code>
+- <code><a href="./src/resources/graphs/graphs.ts">GraphListResponse</a></code>
+- <code><a href="./src/resources/graphs/graphs.ts">GraphQueryResponse</a></code>
 
 Methods:
 
-- <code title="post /graphs">client.graphs.<a href="./src/resources/graphs.ts">create</a>({ ...params }) -> Graph</code>
-- <code title="get /graphs/{owner}/{name}">client.graphs.<a href="./src/resources/graphs.ts">retrieve</a>(owner, name) -> Graph</code>
-- <code title="get /graphs">client.graphs.<a href="./src/resources/graphs.ts">list</a>() -> GraphListResponse</code>
-- <code title="delete /graphs/{owner}/{name}">client.graphs.<a href="./src/resources/graphs.ts">delete</a>(owner, name) -> void</code>
-- <code title="post /graphs/{owner}/{name}/query">client.graphs.<a href="./src/resources/graphs.ts">query</a>(owner, name, { ...params }) -> GraphQueryResponse</code>
-- <code title="post /graphs/{owner}/{name}/tuples">client.graphs.<a href="./src/resources/graphs.ts">tuples</a>(owner, name, { ...params }) -> GraphTuplesResponse</code>
+- <code title="post /graphs">client.graphs.<a href="./src/resources/graphs/graphs.ts">create</a>({ ...params }) -> Graph</code>
+- <code title="get /graphs/{owner}/{name}">client.graphs.<a href="./src/resources/graphs/graphs.ts">retrieve</a>(owner, name) -> Graph</code>
+- <code title="get /graphs">client.graphs.<a href="./src/resources/graphs/graphs.ts">list</a>() -> GraphListResponse</code>
+- <code title="delete /graphs/{owner}/{name}">client.graphs.<a href="./src/resources/graphs/graphs.ts">delete</a>(owner, name) -> void</code>
+- <code title="post /graphs/{owner}/{name}/query">client.graphs.<a href="./src/resources/graphs/graphs.ts">query</a>(owner, name, { ...params }) -> GraphQueryResponse</code>
+
+## Tuples
+
+Types:
+
+- <code><a href="./src/resources/graphs/tuples.ts">TupleCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /graphs/{owner}/{name}/tuples">client.graphs.tuples.<a href="./src/resources/graphs/tuples.ts">create</a>(owner, name, { ...params }) -> TupleCreateResponse</code>
+
+# Health
+
+Types:
+
+- <code><a href="./src/resources/health.ts">HealthRestrictResponse</a></code>
+
+Methods:
+
+- <code title="get /health">client.health.<a href="./src/resources/health.ts">restrict</a>() -> HealthRestrictResponse</code>
 
 # Queries
 
@@ -78,3 +84,13 @@ Types:
 Methods:
 
 - <code title="post /queries/decode">client.queries.<a href="./src/resources/queries.ts">decode</a>({ ...params }) -> QueryDecodeResponse</code>
+
+# Query
+
+Types:
+
+- <code><a href="./src/resources/query.ts">QueryRestrictResponse</a></code>
+
+Methods:
+
+- <code title="post /query">client.query.<a href="./src/resources/query.ts">restrict</a>({ ...params }) -> QueryRestrictResponse</code>
