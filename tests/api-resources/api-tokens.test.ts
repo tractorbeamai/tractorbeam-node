@@ -8,9 +8,9 @@ const client = new Tractorbeam({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource graphs', () => {
+describe('resource apiTokens', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.graphs.create({ name: 'name' });
+    const responsePromise = client.apiTokens.create({ name: 'my_api_token' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,11 +21,11 @@ describe('resource graphs', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.graphs.create({ name: 'name' });
+    const response = await client.apiTokens.create({ name: 'my_api_token' });
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.graphs.retrieve('org_2nlswGH0pZ1V1OlHYAUwQG6TVBx', 'my_graph');
+    const responsePromise = client.apiTokens.retrieve('token_123');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -38,14 +38,12 @@ describe('resource graphs', () => {
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.graphs.retrieve('org_2nlswGH0pZ1V1OlHYAUwQG6TVBx', 'my_graph', {
-        path: '/_stainless_unknown_path',
-      }),
+      client.apiTokens.retrieve('token_123', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Tractorbeam.NotFoundError);
   });
 
   test('list', async () => {
-    const responsePromise = client.graphs.list();
+    const responsePromise = client.apiTokens.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -57,13 +55,13 @@ describe('resource graphs', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.graphs.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.apiTokens.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       Tractorbeam.NotFoundError,
     );
   });
 
   test('delete', async () => {
-    const responsePromise = client.graphs.delete('org_2nlswGH0pZ1V1OlHYAUwQG6TVBx', 'my_graph');
+    const responsePromise = client.apiTokens.delete('token_123');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -75,45 +73,8 @@ describe('resource graphs', () => {
 
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.graphs.delete('org_2nlswGH0pZ1V1OlHYAUwQG6TVBx', 'my_graph', {
-        path: '/_stainless_unknown_path',
-      }),
-    ).rejects.toThrow(Tractorbeam.NotFoundError);
-  });
-
-  test('query: only required params', async () => {
-    const responsePromise = client.graphs.query('graph-owner', 'graph-name', { sparql: 'sparql' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('query: required and optional params', async () => {
-    const response = await client.graphs.query('graph-owner', 'graph-name', { sparql: 'sparql' });
-  });
-
-  test('tuples: only required params', async () => {
-    const responsePromise = client.graphs.tuples('graph-owner', 'graph-name', {
-      tuples: [{ object: 'Tractorbeam', predicate: 'works_at', subject: 'Wade' }],
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('tuples: required and optional params', async () => {
-    const response = await client.graphs.tuples('graph-owner', 'graph-name', {
-      tuples: [{ object: 'Tractorbeam', predicate: 'works_at', subject: 'Wade' }],
-      embeddings: [[0]],
-    });
+    await expect(client.apiTokens.delete('token_123', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Tractorbeam.NotFoundError,
+    );
   });
 });

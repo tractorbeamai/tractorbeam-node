@@ -5,13 +5,37 @@ import * as Core from './core';
 import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { GraphCreateParams, GraphCreateResponse, Graphs } from './resources/graphs';
+import { APIToken, APITokenCreateParams, APITokenListResponse, APITokens } from './resources/api-tokens';
+import {
+  Graph,
+  GraphCreateParams,
+  GraphListResponse,
+  GraphQueryParams,
+  GraphQueryResponse,
+  GraphTuplesParams,
+  GraphTuplesResponse,
+  Graphs,
+} from './resources/graphs';
+import { Health, HealthCheckResponse } from './resources/health';
+import {
+  Queries,
+  QueryDecodeParams,
+  QueryDecodeResponse,
+  QueryQueryParams,
+  QueryQueryResponse,
+} from './resources/queries';
+import {
+  Document,
+  DocumentCreateParams,
+  DocumentListResponse,
+  Documents,
+} from './resources/documents/documents';
 
 export interface ClientOptions {
   /**
-   * The API key used for authorization in the Tractorbeam API
+   * Bearer token for authentication
    */
-  apiKey?: string | undefined;
+  bearerToken?: string | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -74,14 +98,14 @@ export interface ClientOptions {
  * API Client for interfacing with the Tractorbeam API.
  */
 export class Tractorbeam extends Core.APIClient {
-  apiKey: string;
+  bearerToken: string;
 
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Tractorbeam API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['TRACTORBEAM_API_KEY'] ?? undefined]
+   * @param {string | undefined} [opts.bearerToken=process.env['API_TOKEN'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['TRACTORBEAM_BASE_URL'] ?? https://api.tractorbeam.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -92,17 +116,17 @@ export class Tractorbeam extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('TRACTORBEAM_BASE_URL'),
-    apiKey = Core.readEnv('TRACTORBEAM_API_KEY'),
+    bearerToken = Core.readEnv('API_TOKEN'),
     ...opts
   }: ClientOptions = {}) {
-    if (apiKey === undefined) {
+    if (bearerToken === undefined) {
       throw new Errors.TractorbeamError(
-        "The TRACTORBEAM_API_KEY environment variable is missing or empty; either provide it, or instantiate the Tractorbeam client with an apiKey option, like new Tractorbeam({ apiKey: 'My API Key' }).",
+        "The API_TOKEN environment variable is missing or empty; either provide it, or instantiate the Tractorbeam client with an bearerToken option, like new Tractorbeam({ bearerToken: 'My Bearer Token' }).",
       );
     }
 
     const options: ClientOptions = {
-      apiKey,
+      bearerToken,
       ...opts,
       baseURL: baseURL || `https://api.tractorbeam.ai`,
     };
@@ -117,10 +141,14 @@ export class Tractorbeam extends Core.APIClient {
 
     this._options = options;
 
-    this.apiKey = apiKey;
+    this.bearerToken = bearerToken;
   }
 
+  apiTokens: API.APITokens = new API.APITokens(this);
+  documents: API.Documents = new API.Documents(this);
   graphs: API.Graphs = new API.Graphs(this);
+  health: API.Health = new API.Health(this);
+  queries: API.Queries = new API.Queries(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -134,7 +162,7 @@ export class Tractorbeam extends Core.APIClient {
   }
 
   protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    return { 'X-API-Key': this.apiKey };
+    return { Authorization: `Bearer ${this.bearerToken}` };
   }
 
   static Tractorbeam = this;
@@ -158,14 +186,47 @@ export class Tractorbeam extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
+Tractorbeam.APITokens = APITokens;
+Tractorbeam.Documents = Documents;
 Tractorbeam.Graphs = Graphs;
+Tractorbeam.Health = Health;
+Tractorbeam.Queries = Queries;
 export declare namespace Tractorbeam {
   export type RequestOptions = Core.RequestOptions;
 
   export {
+    APITokens as APITokens,
+    type APIToken as APIToken,
+    type APITokenListResponse as APITokenListResponse,
+    type APITokenCreateParams as APITokenCreateParams,
+  };
+
+  export {
+    Documents as Documents,
+    type Document as Document,
+    type DocumentListResponse as DocumentListResponse,
+    type DocumentCreateParams as DocumentCreateParams,
+  };
+
+  export {
     Graphs as Graphs,
-    type GraphCreateResponse as GraphCreateResponse,
+    type Graph as Graph,
+    type GraphListResponse as GraphListResponse,
+    type GraphQueryResponse as GraphQueryResponse,
+    type GraphTuplesResponse as GraphTuplesResponse,
     type GraphCreateParams as GraphCreateParams,
+    type GraphQueryParams as GraphQueryParams,
+    type GraphTuplesParams as GraphTuplesParams,
+  };
+
+  export { Health as Health, type HealthCheckResponse as HealthCheckResponse };
+
+  export {
+    Queries as Queries,
+    type QueryDecodeResponse as QueryDecodeResponse,
+    type QueryQueryResponse as QueryQueryResponse,
+    type QueryDecodeParams as QueryDecodeParams,
+    type QueryQueryParams as QueryQueryParams,
   };
 }
 
