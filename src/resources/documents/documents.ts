@@ -13,7 +13,9 @@ export class Documents extends APIResource {
 
   /**
    * Create a new document. Unlike other endpoints, this endpoint requires data to be
-   * sent as `multipart/form-data` rather than JSON.
+   * sent as `multipart/form-data` rather than JSON. The only supported file type is
+   * PDF with a maximum size of 512MiB. Other file types can be uploaded (with type
+   * `application/octet-stream`) but will not be processed into Tuples.
    */
   create(body: DocumentCreateParams, options?: Core.RequestOptions): Core.APIPromise<Document> {
     return this._client.post('/documents', { body, ...options });
