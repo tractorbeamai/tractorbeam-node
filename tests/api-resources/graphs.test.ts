@@ -8,9 +8,9 @@ const client = new Tractorbeam({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource apiTokens', () => {
+describe('resource graphs', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.apiTokens.create({ name: 'my_api_token' });
+    const responsePromise = client.graphs.create({ name: 'name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,29 +21,11 @@ describe('resource apiTokens', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.apiTokens.create({ name: 'my_api_token' });
-  });
-
-  test('retrieve', async () => {
-    const responsePromise = client.apiTokens.retrieve('token_123');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.apiTokens.retrieve('token_123', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Tractorbeam.NotFoundError);
+    const response = await client.graphs.create({ name: 'name' });
   });
 
   test('list', async () => {
-    const responsePromise = client.apiTokens.list();
+    const responsePromise = client.graphs.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -55,13 +37,13 @@ describe('resource apiTokens', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.apiTokens.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.graphs.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       Tractorbeam.NotFoundError,
     );
   });
 
   test('delete', async () => {
-    const responsePromise = client.apiTokens.delete('token_123');
+    const responsePromise = client.graphs.delete('org_2nlswGH0pZ1V1OlHYAUwQG6TVBx', 'my_graph');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -73,8 +55,48 @@ describe('resource apiTokens', () => {
 
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.apiTokens.delete('token_123', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Tractorbeam.NotFoundError,
-    );
+    await expect(
+      client.graphs.delete('org_2nlswGH0pZ1V1OlHYAUwQG6TVBx', 'my_graph', {
+        path: '/_stainless_unknown_path',
+      }),
+    ).rejects.toThrow(Tractorbeam.NotFoundError);
+  });
+
+  test('addTuples: only required params', async () => {
+    const responsePromise = client.graphs.addTuples('graph-owner', 'graph-name', {
+      tuples: [{ object: 'Tractorbeam', predicate: 'works_at', subject: 'Wade' }],
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('addTuples: required and optional params', async () => {
+    const response = await client.graphs.addTuples('graph-owner', 'graph-name', {
+      tuples: [{ object: 'Tractorbeam', predicate: 'works_at', subject: 'Wade' }],
+      embeddings: [[0]],
+    });
+  });
+
+  test('get', async () => {
+    const responsePromise = client.graphs.get('org_2nlswGH0pZ1V1OlHYAUwQG6TVBx', 'my_graph');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('get: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.graphs.get('org_2nlswGH0pZ1V1OlHYAUwQG6TVBx', 'my_graph', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Tractorbeam.NotFoundError);
   });
 });

@@ -5,7 +5,22 @@ import * as Core from './core';
 import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { APIToken, APITokenCreateParams, APITokenListResponse, APITokens } from './resources/api-tokens';
+import {
+  Document,
+  DocumentContents,
+  DocumentCreateParams,
+  DocumentListResponse,
+  DocumentTuplesParams,
+  Documents,
+} from './resources/documents';
+import {
+  Graph,
+  GraphAddTuplesParams,
+  GraphAddTuplesResponse,
+  GraphCreateParams,
+  GraphListResponse,
+  Graphs,
+} from './resources/graphs';
 import { Health, HealthCheckResponse } from './resources/health';
 import {
   Queries,
@@ -14,21 +29,6 @@ import {
   QueryDecodeParams,
   QueryDecodeResponse,
 } from './resources/queries';
-import {
-  Document,
-  DocumentContents,
-  DocumentCreateParams,
-  DocumentListResponse,
-  Documents,
-} from './resources/documents/documents';
-import {
-  Graph,
-  GraphCreateParams,
-  GraphListResponse,
-  GraphQueryParams,
-  GraphQueryResponse,
-  Graphs,
-} from './resources/graphs/graphs';
 
 export interface ClientOptions {
   /**
@@ -143,7 +143,6 @@ export class Tractorbeam extends Core.APIClient {
     this.apiToken = apiToken;
   }
 
-  apiTokens: API.APITokens = new API.APITokens(this);
   documents: API.Documents = new API.Documents(this);
   graphs: API.Graphs = new API.Graphs(this);
   health: API.Health = new API.Health(this);
@@ -185,7 +184,6 @@ export class Tractorbeam extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-Tractorbeam.APITokens = APITokens;
 Tractorbeam.Documents = Documents;
 Tractorbeam.Graphs = Graphs;
 Tractorbeam.Health = Health;
@@ -194,27 +192,21 @@ export declare namespace Tractorbeam {
   export type RequestOptions = Core.RequestOptions;
 
   export {
-    APITokens as APITokens,
-    type APIToken as APIToken,
-    type APITokenListResponse as APITokenListResponse,
-    type APITokenCreateParams as APITokenCreateParams,
-  };
-
-  export {
     Documents as Documents,
     type Document as Document,
     type DocumentContents as DocumentContents,
     type DocumentListResponse as DocumentListResponse,
     type DocumentCreateParams as DocumentCreateParams,
+    type DocumentTuplesParams as DocumentTuplesParams,
   };
 
   export {
     Graphs as Graphs,
     type Graph as Graph,
     type GraphListResponse as GraphListResponse,
-    type GraphQueryResponse as GraphQueryResponse,
+    type GraphAddTuplesResponse as GraphAddTuplesResponse,
     type GraphCreateParams as GraphCreateParams,
-    type GraphQueryParams as GraphQueryParams,
+    type GraphAddTuplesParams as GraphAddTuplesParams,
   };
 
   export { Health as Health, type HealthCheckResponse as HealthCheckResponse };

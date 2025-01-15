@@ -11,11 +11,8 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:tractorbeamai/tractorbeam-node.git
+npm install tractorbeam
 ```
-
-> [!NOTE]
-> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install tractorbeam`
 
 ## Usage
 
@@ -30,9 +27,9 @@ const client = new Tractorbeam({
 });
 
 async function main() {
-  const apiToken = await client.apiTokens.retrieve('REPLACE_ME');
+  const graph = await client.graphs.list();
 
-  console.log(apiToken.id);
+  console.log(graph.graphs);
 }
 
 main();
@@ -51,7 +48,8 @@ const client = new Tractorbeam({
 });
 
 async function main() {
-  const apiToken: Tractorbeam.APIToken = await client.apiTokens.retrieve('REPLACE_ME');
+  const params: Tractorbeam.GraphCreateParams = { name: 'name' };
+  const graph: Tractorbeam.Graph = await client.graphs.create(params);
 }
 
 main();
@@ -68,7 +66,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const apiToken = await client.apiTokens.retrieve('REPLACE_ME').catch(async (err) => {
+  const graph = await client.graphs.create({ name: 'name' }).catch(async (err) => {
     if (err instanceof Tractorbeam.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -111,7 +109,7 @@ const client = new Tractorbeam({
 });
 
 // Or, configure per-request:
-await client.apiTokens.retrieve('REPLACE_ME', {
+await client.graphs.create({ name: 'name' }, {
   maxRetries: 5,
 });
 ```
@@ -128,7 +126,7 @@ const client = new Tractorbeam({
 });
 
 // Override per-request:
-await client.apiTokens.retrieve('REPLACE_ME', {
+await client.graphs.create({ name: 'name' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -149,13 +147,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Tractorbeam();
 
-const response = await client.apiTokens.retrieve('REPLACE_ME').asResponse();
+const response = await client.graphs.create({ name: 'name' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: apiToken, response: raw } = await client.apiTokens.retrieve('REPLACE_ME').withResponse();
+const { data: graph, response: raw } = await client.graphs.create({ name: 'name' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(apiToken.id);
+console.log(graph.created_at);
 ```
 
 ### Making custom/undocumented requests
@@ -259,9 +257,12 @@ const client = new Tractorbeam({
 });
 
 // Override per-request:
-await client.apiTokens.retrieve('REPLACE_ME', {
-  httpAgent: new http.Agent({ keepAlive: false }),
-});
+await client.graphs.create(
+  { name: 'name' },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
+  },
+);
 ```
 
 ## Semantic versioning
