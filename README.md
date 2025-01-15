@@ -48,7 +48,7 @@ const client = new Tractorbeam({
 });
 
 async function main() {
-  const params: Tractorbeam.GraphCreateParams = { name: 'name' };
+  const params: Tractorbeam.GraphCreateParams = { name: 'artificial-general-intelligence' };
   const graph: Tractorbeam.Graph = await client.graphs.create(params);
 }
 
@@ -66,7 +66,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const graph = await client.graphs.create({ name: 'name' }).catch(async (err) => {
+  const graph = await client.graphs.create({ name: 'artificial-general-intelligence' }).catch(async (err) => {
     if (err instanceof Tractorbeam.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -109,7 +109,7 @@ const client = new Tractorbeam({
 });
 
 // Or, configure per-request:
-await client.graphs.create({ name: 'name' }, {
+await client.graphs.create({ name: 'artificial-general-intelligence' }, {
   maxRetries: 5,
 });
 ```
@@ -126,7 +126,7 @@ const client = new Tractorbeam({
 });
 
 // Override per-request:
-await client.graphs.create({ name: 'name' }, {
+await client.graphs.create({ name: 'artificial-general-intelligence' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -147,11 +147,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Tractorbeam();
 
-const response = await client.graphs.create({ name: 'name' }).asResponse();
+const response = await client.graphs.create({ name: 'artificial-general-intelligence' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: graph, response: raw } = await client.graphs.create({ name: 'name' }).withResponse();
+const { data: graph, response: raw } = await client.graphs
+  .create({ name: 'artificial-general-intelligence' })
+  .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(graph.created_at);
 ```
@@ -258,7 +260,7 @@ const client = new Tractorbeam({
 
 // Override per-request:
 await client.graphs.create(
-  { name: 'name' },
+  { name: 'artificial-general-intelligence' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
