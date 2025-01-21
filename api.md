@@ -3,7 +3,6 @@
 Types:
 
 - <code><a href="./src/resources/documents.ts">Document</a></code>
-- <code><a href="./src/resources/documents.ts">DocumentContents</a></code>
 - <code><a href="./src/resources/documents.ts">DocumentListResponse</a></code>
 
 Methods:
@@ -11,7 +10,7 @@ Methods:
 - <code title="post /documents">client.documents.<a href="./src/resources/documents.ts">create</a>({ ...params }) -> Document</code>
 - <code title="get /documents">client.documents.<a href="./src/resources/documents.ts">list</a>() -> DocumentListResponse</code>
 - <code title="delete /documents/{id}">client.documents.<a href="./src/resources/documents.ts">delete</a>(id) -> void</code>
-- <code title="get /documents/{id}/contents">client.documents.<a href="./src/resources/documents.ts">contents</a>(id) -> DocumentContents</code>
+- <code title="get /documents/{id}/contents">client.documents.<a href="./src/resources/documents.ts">contents</a>(id) -> void</code>
 - <code title="get /documents/{id}">client.documents.<a href="./src/resources/documents.ts">get</a>(id) -> Document</code>
 - <code title="get /documents/{id}/tuples">client.documents.<a href="./src/resources/documents.ts">tuples</a>(id, { ...params }) -> void</code>
 
