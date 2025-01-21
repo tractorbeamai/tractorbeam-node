@@ -7,7 +7,6 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
   Document,
-  DocumentContents,
   DocumentCreateParams,
   DocumentListResponse,
   DocumentTuplesParams,
@@ -194,7 +193,6 @@ export declare namespace Tractorbeam {
   export {
     Documents as Documents,
     type Document as Document,
-    type DocumentContents as DocumentContents,
     type DocumentListResponse as DocumentListResponse,
     type DocumentCreateParams as DocumentCreateParams,
     type DocumentTuplesParams as DocumentTuplesParams,

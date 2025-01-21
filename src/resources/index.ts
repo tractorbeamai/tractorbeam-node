@@ -3,7 +3,6 @@
 export {
   Documents,
   type Document,
-  type DocumentContents,
   type DocumentListResponse,
   type DocumentCreateParams,
   type DocumentTuplesParams,
