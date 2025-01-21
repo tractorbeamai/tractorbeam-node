@@ -33,10 +33,14 @@ export class Documents extends APIResource {
   }
 
   /**
-   * Get the binary contents of a document by its ID.
+   * This endpoint returns a redirect to a signed URL to securely download the
+   * document contents.
    */
-  contents(id: string, options?: Core.RequestOptions): Core.APIPromise<DocumentContents> {
-    return this._client.get(`/documents/${id}/contents`, options);
+  contents(id: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.get(`/documents/${id}/contents`, {
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
   }
 
   /**
@@ -101,13 +105,6 @@ export interface Document {
   owner: string;
 }
 
-export interface DocumentContents {
-  /**
-   * The binary contents of the document
-   */
-  contents: Array<number>;
-}
-
 export interface DocumentListResponse {
   documents: Array<Document>;
 }
@@ -139,7 +136,6 @@ export interface DocumentTuplesParams {
 export declare namespace Documents {
   export {
     type Document as Document,
-    type DocumentContents as DocumentContents,
     type DocumentListResponse as DocumentListResponse,
     type DocumentCreateParams as DocumentCreateParams,
     type DocumentTuplesParams as DocumentTuplesParams,
