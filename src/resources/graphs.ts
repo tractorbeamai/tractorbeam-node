@@ -46,6 +46,18 @@ export class Graphs extends APIResource {
   get(owner: string, name: string, options?: Core.RequestOptions): Core.APIPromise<Graph> {
     return this._client.get(`/graphs/${owner}/${name}`, options);
   }
+
+  /**
+   * Get all tuples in a graph using an identity query (SELECT ?s ?p ?o WHERE { ?s ?p
+   * ?o . }).
+   */
+  getTuples(
+    owner: string,
+    name: string,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<GraphGetTuplesResponse> {
+    return this._client.get(`/graphs/${owner}/${name}/tuples`, options);
+  }
 }
 
 export interface Graph {
@@ -79,6 +91,29 @@ export interface GraphAddTuplesResponse {
    * The number of tuples inserted
    */
   inserted: number;
+}
+
+export interface GraphGetTuplesResponse {
+  tuples: Array<GraphGetTuplesResponse.Tuple>;
+}
+
+export namespace GraphGetTuplesResponse {
+  export interface Tuple {
+    /**
+     * The object of the tuple
+     */
+    object: string;
+
+    /**
+     * The predicate of the tuple
+     */
+    predicate: string;
+
+    /**
+     * The subject of the tuple
+     */
+    subject: string;
+  }
 }
 
 export interface GraphCreateParams {
@@ -115,6 +150,7 @@ export declare namespace Graphs {
     type Graph as Graph,
     type GraphListResponse as GraphListResponse,
     type GraphAddTuplesResponse as GraphAddTuplesResponse,
+    type GraphGetTuplesResponse as GraphGetTuplesResponse,
     type GraphCreateParams as GraphCreateParams,
     type GraphAddTuplesParams as GraphAddTuplesParams,
   };
