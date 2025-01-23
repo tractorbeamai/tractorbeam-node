@@ -12,6 +12,7 @@ export {
   type Graph,
   type GraphListResponse,
   type GraphAddTuplesResponse,
+  type GraphGetTuplesResponse,
   type GraphCreateParams,
   type GraphAddTuplesParams,
 } from './graphs';

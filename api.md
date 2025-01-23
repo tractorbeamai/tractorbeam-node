@@ -21,6 +21,7 @@ Types:
 - <code><a href="./src/resources/graphs.ts">Graph</a></code>
 - <code><a href="./src/resources/graphs.ts">GraphListResponse</a></code>
 - <code><a href="./src/resources/graphs.ts">GraphAddTuplesResponse</a></code>
+- <code><a href="./src/resources/graphs.ts">GraphGetTuplesResponse</a></code>
 
 Methods:
 
@@ -29,6 +30,7 @@ Methods:
 - <code title="delete /graphs/{owner}/{name}">client.graphs.<a href="./src/resources/graphs.ts">delete</a>(owner, name) -> void</code>
 - <code title="post /graphs/{owner}/{name}/tuples">client.graphs.<a href="./src/resources/graphs.ts">addTuples</a>(owner, name, { ...params }) -> GraphAddTuplesResponse</code>
 - <code title="get /graphs/{owner}/{name}">client.graphs.<a href="./src/resources/graphs.ts">get</a>(owner, name) -> Graph</code>
+- <code title="get /graphs/{owner}/{name}/tuples">client.graphs.<a href="./src/resources/graphs.ts">getTuples</a>(owner, name) -> GraphGetTuplesResponse</code>
 
 # Health
 
