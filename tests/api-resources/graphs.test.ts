@@ -64,7 +64,7 @@ describe('resource graphs', () => {
 
   test('addTuples: only required params', async () => {
     const responsePromise = client.graphs.addTuples('graph-owner', 'graph-name', {
-      tuples: [{ object: 'Tractorbeam', predicate: 'works_at', subject: 'Wade' }],
+      tuples: [{ object: 'Company1', predicate: 'worksAt', subject: 'Person1' }],
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -77,7 +77,7 @@ describe('resource graphs', () => {
 
   test('addTuples: required and optional params', async () => {
     const response = await client.graphs.addTuples('graph-owner', 'graph-name', {
-      tuples: [{ object: 'Tractorbeam', predicate: 'works_at', subject: 'Wade' }],
+      tuples: [{ object: 'Company1', predicate: 'worksAt', subject: 'Person1' }],
       embeddings: [[0]],
     });
   });
