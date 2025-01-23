@@ -17,6 +17,7 @@ import {
   GraphAddTuplesParams,
   GraphAddTuplesResponse,
   GraphCreateParams,
+  GraphGetTuplesResponse,
   GraphListResponse,
   Graphs,
 } from './resources/graphs';
@@ -203,6 +204,7 @@ export declare namespace Tractorbeam {
     type Graph as Graph,
     type GraphListResponse as GraphListResponse,
     type GraphAddTuplesResponse as GraphAddTuplesResponse,
+    type GraphGetTuplesResponse as GraphGetTuplesResponse,
     type GraphCreateParams as GraphCreateParams,
     type GraphAddTuplesParams as GraphAddTuplesParams,
   };
