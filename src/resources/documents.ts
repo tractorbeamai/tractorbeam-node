@@ -54,6 +54,9 @@ export class Documents extends APIResource {
    * Extract tuples from a document by its ID. If streaming is enabled, the response
    * will be a stream of tuples as JSON server-sent events. This endpoint requires
    * calling our external inference service, and will have significant latency.
+   *
+   * If target_graph_owner and target_graph_name are provided as query parameters,
+   * the tuples will also be inserted into the specified graph.
    */
   tuples(id: string, query?: DocumentTuplesParams, options?: Core.RequestOptions): Core.APIPromise<void>;
   tuples(id: string, options?: Core.RequestOptions): Core.APIPromise<void>;
@@ -131,6 +134,16 @@ export interface DocumentTuplesParams {
    * Whether to stream the tuples back as a stream of JSON server-sent events
    */
   stream?: boolean;
+
+  /**
+   * The name of the target graph to add tuples to
+   */
+  target_graph_name?: string | null;
+
+  /**
+   * The owner of the target graph to add tuples to
+   */
+  target_graph_owner?: string | null;
 }
 
 export declare namespace Documents {
