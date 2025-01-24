@@ -123,7 +123,7 @@ describe('resource documents', () => {
     await expect(
       client.documents.tuples(
         'doc_2yYISEvrO9LrLAOJjnw27',
-        { stream: true },
+        { stream: true, target_graph_name: 'target_graph_name', target_graph_owner: 'target_graph_owner' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Tractorbeam.NotFoundError);
