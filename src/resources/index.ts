@@ -17,10 +17,4 @@ export {
   type GraphAddTuplesParams,
 } from './graphs';
 export { Health, type HealthCheckResponse } from './health';
-export {
-  Queries,
-  type QueryCreateResponse,
-  type QueryDecodeResponse,
-  type QueryCreateParams,
-  type QueryDecodeParams,
-} from './queries';
+export { Queries } from './queries';

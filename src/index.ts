@@ -22,13 +22,7 @@ import {
   Graphs,
 } from './resources/graphs';
 import { Health, HealthCheckResponse } from './resources/health';
-import {
-  Queries,
-  QueryCreateParams,
-  QueryCreateResponse,
-  QueryDecodeParams,
-  QueryDecodeResponse,
-} from './resources/queries';
+import { Queries } from './resources/queries';
 
 export interface ClientOptions {
   /**
@@ -211,13 +205,7 @@ export declare namespace Tractorbeam {
 
   export { Health as Health, type HealthCheckResponse as HealthCheckResponse };
 
-  export {
-    Queries as Queries,
-    type QueryCreateResponse as QueryCreateResponse,
-    type QueryDecodeResponse as QueryDecodeResponse,
-    type QueryCreateParams as QueryCreateParams,
-    type QueryDecodeParams as QueryDecodeParams,
-  };
+  export { Queries as Queries };
 }
 
 export { toFile, fileFromPath } from './uploads';
