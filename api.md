@@ -43,13 +43,3 @@ Methods:
 - <code title="get /health">client.health.<a href="./src/resources/health.ts">check</a>() -> HealthCheckResponse</code>
 
 # Queries
-
-Types:
-
-- <code><a href="./src/resources/queries.ts">QueryCreateResponse</a></code>
-- <code><a href="./src/resources/queries.ts">QueryDecodeResponse</a></code>
-
-Methods:
-
-- <code title="post /query">client.queries.<a href="./src/resources/queries.ts">create</a>({ ...params }) -> QueryCreateResponse</code>
-- <code title="post /queries/decode">client.queries.<a href="./src/resources/queries.ts">decode</a>({ ...params }) -> QueryDecodeResponse</code>
