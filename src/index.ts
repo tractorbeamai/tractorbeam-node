@@ -5,30 +5,24 @@ import * as Core from './core';
 import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { APIToken, APITokenCreateParams, APITokenListResponse, APITokens } from './resources/api-tokens';
-import { Health, HealthCheckResponse } from './resources/health';
-import {
-  Queries,
-  QueryCreateParams,
-  QueryCreateResponse,
-  QueryDecodeParams,
-  QueryDecodeResponse,
-} from './resources/queries';
 import {
   Document,
-  DocumentContents,
   DocumentCreateParams,
   DocumentListResponse,
+  DocumentTuplesParams,
   Documents,
-} from './resources/documents/documents';
+} from './resources/documents';
 import {
   Graph,
+  GraphAddTuplesParams,
+  GraphAddTuplesResponse,
   GraphCreateParams,
+  GraphGetTuplesResponse,
   GraphListResponse,
-  GraphQueryParams,
-  GraphQueryResponse,
   Graphs,
-} from './resources/graphs/graphs';
+} from './resources/graphs';
+import { Health, HealthCheckResponse } from './resources/health';
+import { Queries } from './resources/queries';
 
 export interface ClientOptions {
   /**
@@ -50,7 +44,7 @@ export interface ClientOptions {
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
    */
-  timeout?: number;
+  timeout?: number | undefined;
 
   /**
    * An HTTP agent used to manage HTTP(S) connections.
@@ -58,7 +52,7 @@ export interface ClientOptions {
    * If not provided, an agent will be constructed by default in the Node.js environment,
    * otherwise no agent is used.
    */
-  httpAgent?: Agent;
+  httpAgent?: Agent | undefined;
 
   /**
    * Specify a custom `fetch` function implementation.
@@ -74,7 +68,7 @@ export interface ClientOptions {
    *
    * @default 2
    */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
 
   /**
    * Default headers to include with every request to the API.
@@ -82,7 +76,7 @@ export interface ClientOptions {
    * These can be removed in individual requests by explicitly setting the
    * header to `undefined` or `null` in request options.
    */
-  defaultHeaders?: Core.Headers;
+  defaultHeaders?: Core.Headers | undefined;
 
   /**
    * Default query parameters to include with every request to the API.
@@ -90,7 +84,7 @@ export interface ClientOptions {
    * These can be removed in individual requests by explicitly setting the
    * param to `undefined` in request options.
    */
-  defaultQuery?: Core.DefaultQuery;
+  defaultQuery?: Core.DefaultQuery | undefined;
 }
 
 /**
@@ -143,7 +137,6 @@ export class Tractorbeam extends Core.APIClient {
     this.apiToken = apiToken;
   }
 
-  apiTokens: API.APITokens = new API.APITokens(this);
   documents: API.Documents = new API.Documents(this);
   graphs: API.Graphs = new API.Graphs(this);
   health: API.Health = new API.Health(this);
@@ -185,7 +178,6 @@ export class Tractorbeam extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-Tractorbeam.APITokens = APITokens;
 Tractorbeam.Documents = Documents;
 Tractorbeam.Graphs = Graphs;
 Tractorbeam.Health = Health;
@@ -194,38 +186,26 @@ export declare namespace Tractorbeam {
   export type RequestOptions = Core.RequestOptions;
 
   export {
-    APITokens as APITokens,
-    type APIToken as APIToken,
-    type APITokenListResponse as APITokenListResponse,
-    type APITokenCreateParams as APITokenCreateParams,
-  };
-
-  export {
     Documents as Documents,
     type Document as Document,
-    type DocumentContents as DocumentContents,
     type DocumentListResponse as DocumentListResponse,
     type DocumentCreateParams as DocumentCreateParams,
+    type DocumentTuplesParams as DocumentTuplesParams,
   };
 
   export {
     Graphs as Graphs,
     type Graph as Graph,
     type GraphListResponse as GraphListResponse,
-    type GraphQueryResponse as GraphQueryResponse,
+    type GraphAddTuplesResponse as GraphAddTuplesResponse,
+    type GraphGetTuplesResponse as GraphGetTuplesResponse,
     type GraphCreateParams as GraphCreateParams,
-    type GraphQueryParams as GraphQueryParams,
+    type GraphAddTuplesParams as GraphAddTuplesParams,
   };
 
   export { Health as Health, type HealthCheckResponse as HealthCheckResponse };
 
-  export {
-    Queries as Queries,
-    type QueryCreateResponse as QueryCreateResponse,
-    type QueryDecodeResponse as QueryDecodeResponse,
-    type QueryCreateParams as QueryCreateParams,
-    type QueryDecodeParams as QueryDecodeParams,
-  };
+  export { Queries as Queries };
 }
 
 export { toFile, fileFromPath } from './uploads';
